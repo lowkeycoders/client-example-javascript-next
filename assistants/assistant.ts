@@ -1,90 +1,107 @@
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 import { shows } from "../data/shows";
+import { onsurityPrompt } from "../data/onsurity";
 
 export const assistant: CreateAssistantDTO | any = {
-  name: "Paula-broadway",
+  name: "Priya-Onsurity",
   model: {
-    provider: "openai",
-    model: "gpt-3.5-turbo",
+    provider: "google",
+    model: "gemini-2.0-flash",
     temperature: 0.7,
-    systemPrompt: `You're Paula, an AI assistant who can help the user decide what do he/she wants to watch on Broadway. User can ask you to suggest shows and book tickets. You can get the list of available shows from broadway and show them to the user, and then you can help user decide which ones to choose and which broadway theatre they can visit. After this confirm the details and book the tickets. `,
+    systemPrompt: onsurityPrompt,
     // Upcoming Shows are ${JSON.stringify(
     //   shows
     // )}
     // `,
     functions: [
       {
-        name: "suggestShows",
+        name: "checkClaimStatus",
         async: true,
-        description: "Suggests a list of broadway shows to the user.",
+        description: "Checks the status of a user's claim based on policy number and claim ID.",
         parameters: {
           type: "object",
           properties: {
-            location: {
+            policyNumber: {
               type: "string",
-              description:
-                "The location for which the user wants to see the shows.",
+              description: "The policy number for which the user wants to check claim status.",
             },
-            date: {
+            claimId: {
               type: "string",
-              description:
-                "The date for which the user wants to see the shows.",
+              description: "The claim ID for which the user wants to check status.",
             },
           },
         },
       },
       {
-        name: "confirmDetails",
-        async: true, // remove async to wait for BE response.
-        description: "Confirms the details provided by the user.",
+        name: "verifyHospitalNetwork",
+        async: true,
+        description: "Verifies if a hospital is in the cashless network.",
         parameters: {
           type: "object",
           properties: {
-            show: {
+            hospitalName: {
               type: "string",
-              description: "The show for which the user wants to book tickets.",
-            },
-            date: {
-              type: "string",
-              description:
-                "The date for which the user wants to book the tickets.",
+              description: "The name of the hospital to check in the network.",
             },
             location: {
               type: "string",
-              description:
-                "The location for which the user wants to book the tickets.",
-            },
-            numberOfTickets: {
-              type: "number",
-              description: "The number of tickets that the user wants to book.",
+              description: "The location/city of the hospital.",
             },
           },
         },
       },
       {
-        name: "bookTickets",
-        async: true, // remove async to wait for BE response.
-        description: "Books tickets for the user.",
+        name: "initiatePreAuthorization",
+        async: true,
+        description: "Initiates a pre-authorization request for a cashless claim.",
         parameters: {
           type: "object",
           properties: {
-            show: {
+            policyNumber: {
               type: "string",
-              description: "The show for which the user wants to book tickets.",
+              description: "The policy number for the pre-authorization request.",
             },
-            date: {
+            hospitalName: {
               type: "string",
-              description:
-                "The date for which the user wants to book the tickets.",
+              description: "The hospital where treatment is planned.",
             },
-            location: {
+            treatmentType: {
               type: "string",
-              description:
-                "The location for which the user wants to book the tickets.",
+              description: "The type of treatment or procedure planned.",
             },
-            numberOfTickets: {
+            estimatedCost: {
               type: "number",
-              description: "The number of tickets that the user wants to book.",
+              description: "The estimated cost of the treatment.",
+            },
+            plannedDate: {
+              type: "string",
+              description: "The planned date for the treatment or admission.",
+            },
+          },
+        },
+      },
+      {
+        name: "escalateClaimIssue",
+        async: true,
+        description: "Escalates a claim issue to the claims team for urgent review.",
+        parameters: {
+          type: "object",
+          properties: {
+            policyNumber: {
+              type: "string",
+              description: "The policy number related to the claim issue.",
+            },
+            claimId: {
+              type: "string",
+              description: "The claim ID that needs escalation.",
+            },
+            issueDescription: {
+              type: "string",
+              description: "Brief description of the issue being faced.",
+            },
+            urgencyLevel: {
+              type: "string",
+              description: "The urgency level of the escalation (high/medium/low).",
             },
           },
         },
@@ -96,7 +113,7 @@ export const assistant: CreateAssistantDTO | any = {
     voiceId: "paula",
   },
   firstMessage:
-    "Hi. I'm Paula, Welcome to Broadway Shows! How are u feeling today?",
+    "Hello! This is Priya from the Onsurity claims team. How can I assist you today with your health insurance claim?",
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL
     ? process.env.NEXT_PUBLIC_SERVER_URL
     : "https://08ae-202-43-120-244.ngrok-free.app/api/webhook",

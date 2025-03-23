@@ -3,11 +3,11 @@ import { Message, MessageTypeEnum } from "@/lib/types/conversation.type";
 import { shows } from "@/data/shows";
 import { vapi } from "@/lib/vapi.sdk";
 
-interface ShowsComponentProps {
+interface HospitalsComponentProps {
   showList: Array<(typeof shows)[number]>;
 }
 
-function ShowsComponent({ showList = [] }: ShowsComponentProps) {
+function ShowsComponent({ showList = [] }: HospitalsComponentProps) {
   return (
     <div className="flex gap-8 py-4">
       {showList.map((show) => (
@@ -18,9 +18,9 @@ function ShowsComponent({ showList = [] }: ShowsComponentProps) {
             alt={show.title}
           />
           <h2 className="text-xl font-bold">{show.title}</h2>
-          <p className="text-gray-500 font-bold"> {show.theatre}</p>
+          <p className="text-gray-500 font-bold">Location: {show.theatre}</p>
           {/* <p className="text-gray-500">{show.date.toLocaleString()}</p> */}
-          <p className="text-gray-500">$ {show.price}</p>
+          <p className="text-gray-500">Cashless Coverage: ₹{show.price}</p>
         </div>
       ))}
     </div>

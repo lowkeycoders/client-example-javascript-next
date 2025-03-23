@@ -40,6 +40,14 @@ export interface FunctionCallResultMessage extends BaseMessage {
   };
 }
 
+export interface AddMessage extends BaseMessage {
+  type: MessageTypeEnum.ADD_MESSAGE;
+  message: {
+    role: string;
+    content: string;
+  };
+}
+
 export interface BaseMessage {
   type: MessageTypeEnum;
 }
@@ -47,4 +55,5 @@ export interface BaseMessage {
 export type Message =
   | TranscriptMessage
   | FunctionCallMessage
-  | FunctionCallResultMessage;
+  | FunctionCallResultMessage
+  | AddMessage;

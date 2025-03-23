@@ -31,6 +31,16 @@ const AssistantButton = ({
     cursor: "pointer",
   };
 
+  const handleButtonClick = () => {
+    console.log('Button clicked, current callStatus:', callStatus);
+    if (toggleCall) {
+      console.log('Calling toggleCall function');
+      toggleCall();
+    } else {
+      console.error('toggleCall function is undefined or null');
+    }
+  };
+
   return (
     <Button
       style={buttonStyle}
@@ -41,7 +51,7 @@ const AssistantButton = ({
           ? "bg-orange-500 hover:bg-orange-700"
           : "bg-green-500 hover:bg-green-700"
       } flex items-center justify-center`}
-      onClick={toggleCall}
+      onClick={handleButtonClick}
     >
       {callStatus === CALL_STATUS.ACTIVE ? (
         <Square />

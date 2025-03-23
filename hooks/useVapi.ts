@@ -91,12 +91,22 @@ export function useVapi() {
   }, []);
 
   const start = async () => {
+    console.log('Starting call with assistant:', assistant);
     setCallStatus(CALL_STATUS.LOADING);
-    const response = vapi.start(assistant);
-
-    response.then((res) => {
-      console.log("call", res);
-    });
+    try {
+      console.log('Calling vapi.start()...');
+      const response = vapi.start(assistant);
+      
+      response.then((res) => {
+        console.log("Call started successfully:", res);
+      }).catch((error) => {
+        console.error("Error starting call:", error);
+        setCallStatus(CALL_STATUS.INACTIVE);
+      });
+    } catch (error) {
+      console.error("Exception when starting call:", error);
+      setCallStatus(CALL_STATUS.INACTIVE);
+    }
   };
 
   const stop = () => {

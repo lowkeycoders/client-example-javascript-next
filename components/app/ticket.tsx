@@ -2,7 +2,7 @@ import { shows } from "@/data/shows";
 import { vapi } from "../../lib/vapi.sdk";
 import { MessageTypeEnum } from "../../lib/types/conversation.type";
 
-interface TicketProps {
+interface ClaimDetailsProps {
   type: "confirm" | "ticket";
   show: (typeof shows)[0];
   params: any;
@@ -12,13 +12,13 @@ function Ticket({
   type = "confirm",
   show = shows[0],
   params = {},
-}: TicketProps) {
+}: ClaimDetailsProps) {
   const confirmDetails = () => {
     vapi.send({
       type: MessageTypeEnum.ADD_MESSAGE,
       message: {
         role: "user",
-        content: `Looks good to me. Lets go ahead.`,
+        content: `The pre-authorization details look good. Please proceed with the request.`,
       },
     });
   };
@@ -39,24 +39,24 @@ function Ticket({
 
             {type === "ticket" ? (
               <p className="bg-green-500 text-white rounded-md w-full px-4 py-3 mb-6">
-                Your ticket has been booked successfully.
+                Your claim has been escalated successfully.
               </p>
             ) : null}
             <p className="text-lg mb-6">{show.description}</p>
             <div className="mb-6">
-              <p className="text-xl font-bold mb-2">When:</p>
+              <p className="text-xl font-bold mb-2">Planned Date:</p>
               <p className="text-lg">
-                {new Date(params.date ?? show.date).toLocaleString()}
+                {new Date(params.plannedDate ?? show.date).toLocaleString()}
               </p>
             </div>
             <div className="mb-6">
-              <p className="text-xl font-bold mb-2">Where:</p>
+              <p className="text-xl font-bold mb-2">Hospital:</p>
               <p className="text-lg">{show.theatre}</p>
               <p className="text-lg">{show.venue}</p>
             </div>
             <div className="mb-6">
-              <p className="text-xl font-bold mb-2">Tickets:</p>
-              <p className="text-lg">${show.price} - General Admission</p>
+              <p className="text-xl font-bold mb-2">Estimated Cost:</p>
+              <p className="text-lg">₹{params.estimatedCost ?? show.price} - {params.treatmentType ?? 'Treatment'}</p>
             </div>
             {type == "confirm" ? (
               <button
@@ -64,7 +64,7 @@ function Ticket({
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
               >
-                Confirm Bookings
+                Confirm Pre-Authorization
               </button>
             ) : null}
           </div>

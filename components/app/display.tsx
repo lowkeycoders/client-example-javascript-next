@@ -24,14 +24,14 @@ function Display() {
     const onMessageUpdate = (message: Message) => {
       if (
         message.type === MessageTypeEnum.FUNCTION_CALL &&
-        message.functionCall.name === "suggestShows"
+        message.functionCall.name === "verifyHospitalNetwork"
       ) {
         setStatus("show");
         vapi.send({
           type: MessageTypeEnum.ADD_MESSAGE,
           message: {
             role: "system",
-            content: `Here is the list of suggested shows: ${JSON.stringify(
+            content: `Here is the list of network hospitals: ${JSON.stringify(
               shows.map((show) => show.title)
             )}`,
           },
@@ -39,8 +39,8 @@ function Display() {
         setShowList(shows);
       } else if (
         message.type === MessageTypeEnum.FUNCTION_CALL &&
-        (message.functionCall.name === "confirmDetails" ||
-          message.functionCall.name === "bookTickets")
+        (message.functionCall.name === "initiatePreAuthorization" ||
+          message.functionCall.name === "escalateClaimIssue")
       ) {
         const params = message.functionCall.parameters;
 
@@ -53,7 +53,7 @@ function Display() {
         setSelectedShow(result ?? shows[0]);
 
         setStatus(
-          message.functionCall.name === "confirmDetails" ? "confirm" : "ticket"
+          message.functionCall.name === "initiatePreAuthorization" ? "confirm" : "ticket"
         );
       }
     };
