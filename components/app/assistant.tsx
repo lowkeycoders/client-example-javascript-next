@@ -22,12 +22,12 @@ function Assistant() {
         display: 'flex', 
         justifyContent: 'center', 
         margin: '20px 0',
-        minHeight: '150px'
+        minHeight: '600px' // Increased to accommodate the larger animation
       }}>
         <SpeakingAnimation 
           isAssistantSpeaking={isSpeechActive} 
-          width={150} 
-          height={150} 
+          width={600} // 4x the original width (150 * 4 = 600)
+          height={600} // 4x the original height (150 * 4 = 600)
           className="assistant-animation"
         />
       </div>
