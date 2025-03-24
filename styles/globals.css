@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global styles to prevent scrolling */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 .btn-active {
   @apply bg-red-500 hover:bg-red-700;
 }

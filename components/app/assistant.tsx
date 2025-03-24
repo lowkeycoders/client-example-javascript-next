@@ -14,31 +14,28 @@ function Assistant() {
     console.log(`Speech active state changed: ${isSpeechActive ? 'SPEAKING' : 'NOT SPEAKING'}`);
   }, [isSpeechActive]);
   return (
-    <>
-      <div className="chat-history">
+    <div className="flex flex-col h-full w-full max-w-4xl">
+      <div className="chat-history flex-shrink-0 h-24 overflow-hidden">
         <Display />
       </div>
-      <div className="assistant-animation-container" style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        margin: '20px 0',
-        minHeight: '600px' // Increased to accommodate the larger animation
+      <div className="assistant-animation-container flex-grow flex justify-center items-center" style={{
+        maxHeight: '600px'
       }}>
         <SpeakingAnimation 
           isAssistantSpeaking={isSpeechActive} 
-          width={600} // 4x the original width (150 * 4 = 600)
-          height={600} // 4x the original height (150 * 4 = 600)
+          width={500} // Slightly reduced to ensure it fits on all screens
+          height={500} // Slightly reduced to ensure it fits on all screens
           className="assistant-animation"
         />
       </div>
-      <div className="user-input">
+      <div className="user-input flex-shrink-0 mt-4 flex justify-center">
         <AssistantButton
           audioLevel={audioLevel}
           callStatus={callStatus}
           toggleCall={toggleCall}
-        ></AssistantButton>
+        />
       </div>
-    </>
+    </div>
   );
 }
 
