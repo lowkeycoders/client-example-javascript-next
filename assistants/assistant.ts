@@ -123,7 +123,7 @@ export const assistant: CreateAssistantDTO | any = {
     silenceTimeoutMessage: "Since I haven't heard from you, I'll end this call. Feel free to call back when you're ready to continue discussing your insurance claim."
   },
   firstMessage:
-    "Hi there! This is Priya from the On-shurity claims team. How can I assist you today with your health insurance claim?",
+    "Hello Shivam-- This is Priya from Onsurity’s claims team... How can I assist you today?",
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL
     ? process.env.NEXT_PUBLIC_SERVER_URL
     : "https://08ae-202-43-120-244.ngrok-free.app/api/webhook",
