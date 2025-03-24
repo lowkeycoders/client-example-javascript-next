@@ -109,8 +109,8 @@ export const assistant: CreateAssistantDTO | any = {
     ],
   },
   voice: {
-    provider: "11labs",
-    voiceId: "paula",
+    provider: "vapi",
+    voiceId: "Neha",
   },
   firstMessage:
     "Hello! This is Priya from the Onsurity claims team. How can I assist you today with your health insurance claim?",
