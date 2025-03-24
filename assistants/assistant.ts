@@ -112,6 +112,16 @@ export const assistant: CreateAssistantDTO | any = {
     provider: "vapi",
     voiceId: "Neha",
   },
+  messagePlan: {
+    idleMessages: [
+      "Are we still connected?",
+      "Hello, are you there?",
+      "I'm still here if you need assistance with your insurance claim."
+    ],
+    idleMessageMaxSpokenCount: 2,
+    idleTimeoutSeconds: 5,
+    silenceTimeoutMessage: "Since I haven't heard from you, I'll end this call. Feel free to call back when you're ready to continue discussing your insurance claim."
+  },
   firstMessage:
     "Hello! This is Priya from the Onsurity claims team. How can I assist you today with your health insurance claim?",
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL
