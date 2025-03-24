@@ -9,26 +9,28 @@ const AssistantButton = ({
 }: Partial<ReturnType<typeof useVapi>>) => {
   const color =
     callStatus === CALL_STATUS.ACTIVE
-      ? "red"
+      ? "#f43f5e" // rose-500
       : callStatus === CALL_STATUS.LOADING
-      ? "orange"
-      : "green";
+      ? "#f59e0b" // amber-500
+      : "#10b981"; // emerald-500
+  
   const buttonStyle = {
     borderRadius: "50%",
-    width: "50px",
-    height: "50px",
+    width: "60px",
+    height: "60px",
     color: "white",
     border: "none",
-    boxShadow: `1px 1px ${10 + audioLevel * 40}px ${
-      audioLevel * 10
+    boxShadow: `0 0 ${15 + audioLevel * 40}px ${
+      audioLevel * 15
     }px ${color}`,
     backgroundColor:
       callStatus === CALL_STATUS.ACTIVE
-        ? "red"
+        ? "#f43f5e" // rose-500
         : callStatus === CALL_STATUS.LOADING
-        ? "orange"
-        : "green",
+        ? "#f59e0b" // amber-500
+        : "#10b981", // emerald-500
     cursor: "pointer",
+    transition: "all 0.3s ease",
   };
 
   const handleButtonClick = () => {
@@ -46,11 +48,11 @@ const AssistantButton = ({
       style={buttonStyle}
       className={`transition ease-in-out ${
         callStatus === CALL_STATUS.ACTIVE
-          ? "bg-red-500 hover:bg-red-700"
+          ? "bg-rose-500 hover:bg-rose-600"
           : callStatus === CALL_STATUS.LOADING
-          ? "bg-orange-500 hover:bg-orange-700"
-          : "bg-green-500 hover:bg-green-700"
-      } flex items-center justify-center`}
+          ? "bg-amber-500 hover:bg-amber-600"
+          : "bg-emerald-500 hover:bg-emerald-600"
+      } flex items-center justify-center shadow-lg`}
       onClick={handleButtonClick}
     >
       {callStatus === CALL_STATUS.ACTIVE ? (

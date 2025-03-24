@@ -15,31 +15,30 @@ function Assistant() {
   }, [isSpeechActive]);
   return (
     <div className="flex flex-col h-full w-full max-w-4xl">
-      <div className="chat-history flex-shrink-0 h-12 overflow-hidden">
+      <div className="chat-history flex-shrink-0 overflow-hidden mb-4">
         <Display />
       </div>
+      
       <div className="assistant-animation-container flex justify-center items-center" style={{
-        height: '500px', // Reduced height
-        marginTop: '-20px', // Negative margin to pull it up
-        marginBottom: '-20px' // Negative margin to reduce space below
+        height: '500px',
+        position: 'relative'
       }}>
         <SpeakingAnimation 
           isAssistantSpeaking={isSpeechActive} 
-          width={600} // Increased by 1.5x (400 * 1.5 = 600)
-          height={600} // Increased by 1.5x (400 * 1.5 = 600)
+          width={600}
+          height={600}
           className="assistant-animation"
         />
-      </div>
-      <div className="user-input flex-shrink-0 flex justify-center" style={{
-        position: 'relative', // Ensure it's in the flow
-        zIndex: 10, // Make sure it's above other elements
-        marginTop: '-30px' // Negative margin to pull it up significantly
-      }}>
-        <AssistantButton
-          audioLevel={audioLevel}
-          callStatus={callStatus}
-          toggleCall={toggleCall}
-        />
+        
+        <div className="user-input absolute bottom-0 mb-4" style={{
+          zIndex: 10
+        }}>
+          <AssistantButton
+            audioLevel={audioLevel}
+            callStatus={callStatus}
+            toggleCall={toggleCall}
+          />
+        </div>
       </div>
     </div>
   );
