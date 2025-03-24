@@ -1,0 +1,91 @@
+/* Animation Container Styles */
+.animation-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  will-change: transform, opacity; /* Performance optimization hint */
+}
+
+/* Common styles for both animation types */
+.animation-container.inactive {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+.animation-container.active {
+  filter: none;
+  opacity: 1;
+}
+
+/* Fallback animation image styles */
+.animation-image {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out;
+  will-change: transform, opacity, filter; /* Performance optimization hint */
+}
+
+.animation-image.inactive {
+  transform: scale(0.9);
+}
+
+.animation-image.active {
+  transform: scale(1.1);
+}
+
+/* Sprite Sheet Animation Styles */
+.sprite-animation {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-image: url('/assets/robot-sprite.png');
+  background-size: 500% auto; /* 5 columns (500%) */
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out;
+  will-change: background-position; /* Performance optimization hint */
+}
+
+/* Animation keyframes for sprite animation - using steps for crisp frame changes */
+@keyframes play {
+  0% { background-position: 0% 0%; }
+  4% { background-position: -100% 0%; }
+  8% { background-position: -200% 0%; }
+  12% { background-position: -300% 0%; }
+  16% { background-position: -400% 0%; }
+  20% { background-position: 0% -100%; }
+  24% { background-position: -100% -100%; }
+  28% { background-position: -200% -100%; }
+  32% { background-position: -300% -100%; }
+  36% { background-position: -400% -100%; }
+  40% { background-position: 0% -200%; }
+  44% { background-position: -100% -200%; }
+  48% { background-position: -200% -200%; }
+  52% { background-position: -300% -200%; }
+  56% { background-position: -400% -200%; }
+  60% { background-position: 0% -300%; }
+  64% { background-position: -100% -300%; }
+  68% { background-position: -200% -300%; }
+  72% { background-position: -300% -300%; }
+  76% { background-position: -400% -300%; }
+  80% { background-position: 0% -400%; }
+  84% { background-position: -100% -400%; }
+  88% { background-position: -200% -400%; }
+  92% { background-position: -300% -400%; }
+  96% { background-position: -400% -400%; }
+  100% { background-position: 0% 0%; }
+}
+
+.sprite-animation.playing {
+  animation: play 2.5s steps(1) infinite;
+}
+
+/* Add support for reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .sprite-animation.playing {
+    animation-duration: 4s; /* Slower animation for reduced motion */
+  }
+  
+  .animation-image,
+  .sprite-animation {
+    transition-duration: 0.5s;
+  }
+}

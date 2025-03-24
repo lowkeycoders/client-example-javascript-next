@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprite Sheet Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+    .controls {
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 15px;
+      background: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background: #0051a2;
+    }
+    #status {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sprite Sheet Generator</h1>
+  <p>This tool will generate a sprite sheet from your robot animation frames.</p>
+  
+  <div class="controls">
+    <button id="generateBtn">Generate Sprite Sheet</button>
+    <button id="downloadBtn" disabled>Download Sprite Sheet</button>
+  </div>
+  
+  <div id="status">Ready to generate sprite sheet...</div>
+  
+  <canvas id="spriteCanvas" width="800" height="800"></canvas>
+  
+  <script>
+    const canvas = document.getElementById('spriteCanvas');
+    const ctx = canvas.getContext('2d');
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const statusDiv = document.getElementById('status');
+    
+    // Configuration
+    const columns = 5;
+    const rows = 5;
+    const totalFrames = 25;
+    
+    // Image paths - adjust as needed
+    const getImagePath = (index) => {
+      // Format: robot01.png, robot02.png, ..., robot025.png
+      const frameNum = (index + 1).toString().padStart(2, '0');
+      return `/assets/animation/robot0${frameNum}.png`;
+    };
+    
+    // Generate the sprite sheet
+    generateBtn.addEventListener('click', async () => {
+      statusDiv.textContent = 'Loading images...';
+      
+      try {
+        // Load the first image to get dimensions
+        const firstImage = new Image();
+        firstImage.crossOrigin = 'anonymous';
+        
+        firstImage.onload = async () => {
+          const frameWidth = firstImage.width;
+          const frameHeight = firstImage.height;
+          
+          // Resize canvas to fit all frames
+          canvas.width = frameWidth * columns;
+          canvas.height = frameHeight * rows;
+          
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw the first image
+          ctx.drawImage(firstImage, 0, 0, frameWidth, frameHeight);
+          statusDiv.textContent = `Added frame 1 (${frameWidth}x${frameHeight})`;
+          
+          // Load and draw the rest of the images
+          for (let i = 1; i < totalFrames; i++) {
+            try {
+              await new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => {
+                  const x = (i % columns) * frameWidth;
+                  const y = Math.floor(i / columns) * frameHeight;
+                  ctx.drawImage(img, x, y, frameWidth, frameHeight);
+                  statusDiv.textContent = `Added frame ${i + 1} at position (${x}, ${y})`;
+                  resolve();
+                };
+                img.onerror = (e) => {
+                  statusDiv.textContent = `Error loading frame ${i + 1}: ${e}`;
+                  reject(e);
+                };
+                img.src = getImagePath(i);
+              });
+            } catch (error) {
+              console.error(`Error with frame ${i + 1}:`, error);
+            }
+          }
+          
+          statusDiv.textContent = 'Sprite sheet generated! You can now download it.';
+          downloadBtn.disabled = false;
+        };
+        
+        firstImage.onerror = (e) => {
+          statusDiv.textContent = `Error loading first image: ${e}`;
+        };
+        
+        firstImage.src = getImagePath(0);
+        
+      } catch (error) {
+        statusDiv.textContent = `Error generating sprite sheet: ${error}`;
+        console.error('Error:', error);
+      }
+    });
+    
+    // Download the sprite sheet
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'robot-sprite.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      statusDiv.textContent = 'Sprite sheet downloaded. Save it to /public/assets/robot-sprite.png';
+    });
+  </script>
+</body>
+</html>

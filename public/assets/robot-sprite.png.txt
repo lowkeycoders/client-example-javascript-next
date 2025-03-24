@@ -1,0 +1,9 @@
+This is a placeholder for the sprite sheet image.
+
+To generate the actual sprite sheet:
+1. Open http://localhost:3000/sprite-generator.html in your browser
+2. Click 'Generate Sprite Sheet'
+3. Once generated, click 'Download Sprite Sheet'
+4. Save the downloaded image as 'robot-sprite.png' in the '/public/assets/' directory
+
+Alternatively, you can use an image editing tool to create a sprite sheet by arranging all robot images in a 5x5 grid.
