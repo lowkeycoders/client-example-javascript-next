@@ -119,7 +119,7 @@ export const assistant: CreateAssistantDTO | any = {
       "I'm still here if you need assistance with your insurance claim."
     ],
     idleMessageMaxSpokenCount: 2,
-    idleTimeoutSeconds: 7,
+    idleTimeoutSeconds: 10,
     silenceTimeoutMessage: "Since I haven't heard from you, I'll end this call. Feel free to call back when you're ready to continue discussing your insurance claim."
   },
   firstMessage:
