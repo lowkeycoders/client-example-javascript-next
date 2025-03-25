@@ -77,7 +77,8 @@ export const SpeakingAnimation: React.FC<SpeakingAnimationProps> = ({
       // Format the path correctly based on the actual file naming convention
       // For 1-9: robot01.png to robot09.png
       // For 10+: robot010.png to robot025.png
-      let imagePath: string = `/assets/animation/robot0${i}.png`;
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      let imagePath: string = `${basePath}/assets/animation/robot0${i}.png`;
       
       // Note: Both branches use the same format since the file naming is consistent
       // We're keeping the if statement for clarity and future-proofing if the format changes
