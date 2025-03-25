@@ -3,7 +3,7 @@ import { shows } from "../data/shows";
 import { onsurityPrompt } from "../data/onsurity";
 
 export const assistant: CreateAssistantDTO | any = {
-  name: "Priya-Onsurity",
+  name: "Priya",
   model: {
     provider: "google",
     model: "gemini-2.0-flash",
@@ -123,7 +123,7 @@ export const assistant: CreateAssistantDTO | any = {
     silenceTimeoutMessage: "Since I haven't heard from you, I'll end this call. Feel free to call back when you're ready to continue discussing your insurance claim."
   },
   firstMessage:
-    "Hello Shivam-- This is Priya from Onsurity’s claims team... How can I assist you today?",
+    `Hello Shivam-- This is Priya from ${process.env.NEXT_PUBLIC_COMPANY_NAME || 'Secure Insurance'}'s claims team... How can I assist you today?`,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL
     ? process.env.NEXT_PUBLIC_SERVER_URL
     : "https://08ae-202-43-120-244.ngrok-free.app/api/webhook",
